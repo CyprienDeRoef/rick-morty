@@ -71,7 +71,7 @@ export default function CharacterList(): React.ReactNode {
             <div className="flex gap-4 justify-between [&>*]:flex [&>*]:gap-2 [&>*]:sm:gap-4">
                 <div>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger>
                             <Toggle variant="outline" onClick={ (): void => {
                                 setAlive(!alive);
                                 setActualPage(1);
@@ -82,7 +82,7 @@ export default function CharacterList(): React.ReactNode {
                         </TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger>
                             <Toggle variant="outline" onClick={ (): void => {
                                 setDead(!dead);
                                 setActualPage(1);
@@ -135,7 +135,14 @@ export default function CharacterList(): React.ReactNode {
                     )) }
             </div>
             <Pagination className="gap-2">
-                <PaginationPrevious onClick={ (): void => setActualPage(actualPage - 1) } className="cursor-pointer" />
+                <Tooltip>
+                    <TooltipTrigger>
+                        <PaginationPrevious onClick={ (): void => setActualPage(actualPage - 1) } className="cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        Go to previous page
+                    </TooltipContent>
+                </Tooltip>
                 <PaginationContent>
                     { Array.from({ length: paginationInfo.pages }, (_: unknown, index: number): number => index + 1).map((page: number): false | React.JSX.Element => {
                         const isDisplayed: boolean = page === 1 || page === actualPage || page === paginationInfo.pages || (page >= actualPage - 1 && page <= actualPage + 1);
@@ -154,7 +161,14 @@ export default function CharacterList(): React.ReactNode {
                         );
                     }) }
                 </PaginationContent>
-                <PaginationNext onClick={ (): void => setActualPage(actualPage + 1) } className="cursor-pointer" />
+                <Tooltip>
+                    <TooltipTrigger>
+                        <PaginationNext onClick={ (): void => setActualPage(actualPage + 1) } className="cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        Go to next page
+                    </TooltipContent>
+                </Tooltip>
             </Pagination>
         </>
     );
