@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 import { ModeToggle } from "@/components/ModeToggle";
-import { GlobalBreadcrumb } from "@/components/GlobalBreadcrumb";
 
 const geistSans: NextFontWithVariable = localFont({
     src: "./fonts/GeistVF.woff",
@@ -29,14 +28,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={ `${geistSans.variable} ${geistMono.variable} antialiased p-4 space-y-4` }
+                className={ `${geistSans.variable} ${geistMono.variable} antialiased p-2 sm:p-4 md:p-6 grid gap-2 sm:gap-4 md:gap-6` }
             >
-                <header className="flex justify-between items-center">
+                <header className="container mx-auto flex justify-between items-center">
                     <h1>Brandify</h1>
                     <ModeToggle />
                 </header>
-                <GlobalBreadcrumb />
-                { children }
+                <div className="container mx-auto grid gap-6">
+                    { children }
+                </div>
             </body>
         </html>
     );
