@@ -56,7 +56,7 @@ export default async function Page({
                             <icons.Box className="text-primary" />
                         ) }
                     </p>
-                    <div className="flex">
+                    <div className="flex flex-wrap">
                         <strong>Residents:&nbsp;</strong>
                         { Array.isArray(residents) ?
                             residents.map((resident: Character, index: number) => (
