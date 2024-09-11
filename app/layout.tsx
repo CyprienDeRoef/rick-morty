@@ -31,13 +31,11 @@ export default function RootLayout({
             <body
                 className={ `${geistSans.variable} ${geistMono.variable} antialiased p-4 space-y-4` }
             >
-                <header className="flex justify-between">
-                    <div className="flex gap-6">
-                        <h1>Brandify</h1>
-                        <GlobalBreadcrumb />
-                    </div>
+                <header className="flex justify-between items-center">
+                    <h1>Brandify</h1>
                     <ModeToggle />
                 </header>
+                <GlobalBreadcrumb />
                 { children }
             </body>
         </html>

@@ -2,11 +2,8 @@
 
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { usePathname } from 'next/navigation';
 
-export function GlobalBreadcrumb() {
-    const paths: string = usePathname() || '';
-
+export function GlobalBreadcrumb({ characterName }: { characterName?: string; }): React.JSX.Element {
     return (
         <Breadcrumb>
             <BreadcrumbList>
@@ -16,6 +13,11 @@ export function GlobalBreadcrumb() {
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbLink>
+                        { characterName }
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
     );

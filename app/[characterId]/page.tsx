@@ -1,7 +1,16 @@
-export default async function Page() {
+import React from 'react';
+
+export default async function Page({
+    params
+}: {
+    params: {
+        characterId: string;
+    };
+}): Promise<React.JSX.Element> {
     return (
-        <>
-            <h1>Character</h1>
-        </>
+        <div className='container'>
+            <h1>Character Page</h1>
+            <p>Character ID: { params.characterId }</p>
+        </div>
     );
 }
