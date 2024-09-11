@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Character } from "@/lib/types";
+import * as icons from "lucide-react";
 
 interface CharacterCardProps {
     character: Character;
@@ -13,14 +14,18 @@ interface CharacterCardProps {
 
 export default function CharacterCard({ character }: CharacterCardProps): React.JSX.Element {
     return (
-        <Card className="w-full justify-between flex flex-col">
+        <Card className="w-full flex flex-col justify-between transition hover:scale-[1.03]">
             <CardHeader className="text-center">
                 <Image src={ character.image } alt={ character.name } width={ 900 } height={ 900 } className="rounded-md" />
-                <CardTitle>{ character.name }</CardTitle>
+                <CardTitle>
+                    <Link href={ `/character/${character.id}` }>
+                        { character.name }
+                    </Link>
+                </CardTitle>
                 <CardDescription>{ character.species }</CardDescription>
             </CardHeader>
             <CardContent>
-                <p>Status: { character.status }</p>
+                <p className="flex gap-2">Status: { character.status } { character.status === "Alive" ? <icons.Heart className="text-green-500" /> : character.status === "Dead" ? <icons.X className="text-primary" /> : <icons.HelpCircle className="text-gray-500" /> }</p>
             </CardContent>
             <CardFooter>
                 <Button className="w-full" asChild>

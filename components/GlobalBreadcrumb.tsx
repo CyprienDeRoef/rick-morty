@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 
 interface GlobalBreadcrumbProps {
@@ -29,9 +29,9 @@ export default function GlobalBreadcrumb({ path, ellipsis }: GlobalBreadcrumbPro
                 { path &&
                     <>
                         <BreadcrumbSeparator />
-                        <BreadcrumbLink href={ `/${path}` }>
+                        <BreadcrumbPage>
                             { path }
-                        </BreadcrumbLink>
+                        </BreadcrumbPage>
                     </>
                 }
             </BreadcrumbList>

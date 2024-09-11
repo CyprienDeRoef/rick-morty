@@ -1,7 +1,11 @@
 import React from 'react';
-import { Episode } from "@/lib/types";
-import getSpecificEpisode from "@/lib/data/getSpecificEpisode";
+import { Character, Episode } from "@/lib/types";
+import getSpecificEpisode from "@/lib/data/episode/getSpecificEpisode";
 import GlobalBreadcrumb from '@/components/GlobalBreadcrumb';
+import * as icons from 'lucide-react';
+import Link from 'next/link';
+import getSeveralCharacters from '@/lib/data/character/getSeveralCharacters';
+import DummyText from '@/components/DummyText';
 
 export default async function Page({
     params
@@ -11,30 +15,42 @@ export default async function Page({
     };
 }): Promise<React.JSX.Element> {
     const episode: Episode = await getSpecificEpisode(params.episodeId);
+    const charactersIds: string[] | string = episode.characters.map((character: string): string | undefined => character.split('/').pop()) as string[] | string;
+    const characters: Character[] = await getSeveralCharacters(charactersIds);
 
     return (
         <>
             <GlobalBreadcrumb path={ episode.name } ellipsis />
             <div className="space-y-6">
+                <icons.Play className="text-primary size-80 mx-auto" />
                 <h1 className="text-3xl font-bold">{ episode.name }</h1>
-                <div>
-                    <p><strong>Air Date:</strong> { episode.air_date }</p>
-                    <p><strong>Episode:</strong> { episode.episode }</p>
-                    <p><strong>Characters:</strong>
-                        <ul>
-                            { episode.characters.map((character: string, index: number) => (
-                                <li key={ index }>
-                                    { character }
-                                </li>
-                            )) }
-                        </ul>
+                <div className="[&>p]:flex [&>p]:gap-2 [&>p]:items-center">
+                    <p>
+                        <strong>Air Date:</strong>
+                        { episode.air_date }
+                        <icons.Calendar className="text-primary" />
                     </p>
+                    <p>
+                        <strong>Episode:</strong>
+                        { episode.episode }
+                        <icons.Video className="text-primary" />
+                    </p>
+                    <div className="flex flex-wrap">
+                        <strong>Characters:</strong>
+                        { Array.isArray(characters) ?
+                            characters.map((resident: Character, index: number) => (
+                                <Link key={ index } href={ `/character/${resident.id}` }>
+                                    &nbsp;{ resident.name }{ index < characters.length - 1 ? ',' : '' }
+                                </Link>
+                            ))
+                            :
+                            <span className="text-muted-foreground">No residents found</span>
+                        }
+                        <icons.Users className="text-primary ms-2" />
+                    </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab iusto non a odio minima. Rem, provident fugiat blanditiis recusandae veniam omnis magni quaerat sed reprehenderit officiis, nihil earum, ducimus enim.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo cupiditate sed ad doloremque laborum temporibus optio fuga quas quis aut expedita dicta error, sit suscipit, beatae, reprehenderit ipsa architecto repellendus. Temporibus ea saepe voluptatibus magni inventore cum at iure numquam veritatis, quam ipsa quae neque? Provident officia ipsam minus reprehenderit totam cupiditate, deserunt magnam, tempore culpa eaque aliquid voluptate fuga?</p>
-                <p>Similique dolorem aspernatur necessitatibus unde in tenetur dignissimos velit harum labore excepturi sed debitis corporis nisi autem, quo voluptatibus adipisci ea! Iure commodi consequuntur, laborum similique qui a quas sunt!
-                </p>
-            </div>
+                <DummyText />
+            </div >
         </>
     );
 }

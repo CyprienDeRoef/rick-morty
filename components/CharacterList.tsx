@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { PaginationInfo, Character, Paging } from "@/lib/types";
 import * as icons from "lucide-react";
-import getCharacters from "@/lib/data/getCharacters";
+import getCharacters from "@/lib/data/character/getAllCharacters";
 import {
     Pagination,
     PaginationContent,
@@ -95,7 +95,7 @@ export default function CharacterList(): React.ReactNode {
                     )) }
             </div>
             <Pagination className="gap-2">
-                <PaginationPrevious onClick={ (): void => setActualPage(actualPage - 1) } />
+                <PaginationPrevious onClick={ (): void => setActualPage(actualPage - 1) } className="cursor-pointer" />
                 <PaginationContent>
                     { Array.from({ length: paginationInfo.pages }, (_: unknown, index: number): number => index + 1).map((page: number): false | React.JSX.Element => {
                         const isDisplayed: boolean = page === 1 || page === actualPage || page === paginationInfo.pages || (page >= actualPage - 1 && page <= actualPage + 1);
@@ -114,7 +114,7 @@ export default function CharacterList(): React.ReactNode {
                         );
                     }) }
                 </PaginationContent>
-                <PaginationNext onClick={ (): void => setActualPage(actualPage + 1) } />
+                <PaginationNext onClick={ (): void => setActualPage(actualPage + 1) } className="cursor-pointer" />
             </Pagination>
         </>
     );
