@@ -2,7 +2,7 @@ import { Episode } from "@/lib/types";
 
 export default async function getSeveralEpisodes(
   ids: string[]
-): Promise<Episode[]> {
+): Promise<Episode[] | Episode> {
   try {
     console.log(ids);
     const res: Response = await fetch(

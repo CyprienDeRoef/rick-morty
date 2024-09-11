@@ -2,7 +2,7 @@ import { Character } from "@/lib/types";
 
 export default async function getSeveralCharacters(
   ids: string[] | string
-): Promise<Character[]> {
+): Promise<Character[] | Character> {
   try {
     const res: Response = await fetch(
       `https://rickandmortyapi.com/api/character/${ids}`

@@ -2,7 +2,7 @@ import { Location } from "@/lib/types";
 
 export default async function getSeveralLocations(
   ids: string[]
-): Promise<Location[]> {
+): Promise<Location[] | Location> {
   try {
     const res: Response = await fetch(
       `https://rickandmortyapi.com/api/location/${ids}`

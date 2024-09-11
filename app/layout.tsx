@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 import { ModeToggle } from "@/components/ModeToggle";
+import { ThemeProvider } from "@/components/theme-provider";
+import Link from "next/link";
+import Image from "next/image";
 
 const geistSans: NextFontWithVariable = localFont({
     src: "./fonts/GeistVF.woff",
@@ -27,16 +30,24 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body
-                className={ `${geistSans.variable} ${geistMono.variable} antialiased p-4 md:p-6 grid gap-4 md:gap-6` }
-            >
-                <header className="container mx-auto flex justify-between items-center">
-                    <h1>Brandify</h1>
-                    <ModeToggle />
-                </header>
-                <div className="container mx-auto grid gap-6">
-                    { children }
-                </div>
+            <body className={ `${geistSans.variable} ${geistMono.variable} antialiased p-4 md:p-6 grid gap-4 md:gap-6` }>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <header className="container mx-auto flex justify-between items-center">
+                        <Link href="/" className="flex items-center font-bold">
+                            <Image src="/images/brandify_logo.svg" alt=" Rick & Morty Library" width={ 100 } height={ 25 } />
+                            <p><span className="text-primary ms-1">R</span>&<span className="text-primary">M</span> Library</p>
+                        </Link>
+                        <ModeToggle />
+                    </header>
+                    <div className="container mx-auto grid gap-4 md:gap-6">
+                        { children }
+                    </div>
+                </ThemeProvider>
             </body>
         </html>
     );

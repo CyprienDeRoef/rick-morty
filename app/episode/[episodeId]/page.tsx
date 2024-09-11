@@ -16,11 +16,11 @@ export default async function Page({
 }): Promise<React.JSX.Element> {
     const episode: Episode = await getSpecificEpisode(params.episodeId);
     const charactersIds: string[] | string = episode.characters.map((character: string): string | undefined => character.split('/').pop()) as string[] | string;
-    const characters: Character[] = await getSeveralCharacters(charactersIds);
+    const characters: Character[] | Character = await getSeveralCharacters(charactersIds);
 
     return (
         <>
-            <GlobalBreadcrumb path={ episode.name } ellipsis />
+            <GlobalBreadcrumb path={ episode.episode + ' ' + episode.name } ellipsis />
             <div className="space-y-6">
                 <icons.Play className="text-primary size-80 mx-auto" />
                 <h1 className="text-3xl font-bold">{ episode.name }</h1>

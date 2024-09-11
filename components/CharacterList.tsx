@@ -63,7 +63,7 @@ export default function CharacterList(): React.ReactNode {
 
     return (
         <>
-            <div className="flex gap-4 justify-between [&>*]:flex [&>*]:gap-2">
+            <div className="flex gap-4 justify-between [&>*]:flex [&>*]:gap-2 [&>*]:sm:gap-4">
                 <div>
                     <Toggle variant="outline" onClick={ (): void => {
                         setAlive(!alive);
@@ -82,6 +82,13 @@ export default function CharacterList(): React.ReactNode {
                         <icons.SearchIcon className="h-4 w-4" />
                     </Button>
                     <Input placeholder="Search" onChange={ (e: React.ChangeEvent<HTMLInputElement>): void => setSearchInput(e.target.value) } />
+                    <Button onClick={ (): void => {
+                        setSearchInput("");
+                        setName("");
+                        setActualPage(1);
+                    } }>
+                        <icons.XIcon className="h-4 w-4" />
+                    </Button>
                 </div>
             </div >
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

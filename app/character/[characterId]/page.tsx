@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { Character, Episode } from "@/lib/types";
 import getSpecificCharacter from "@/lib/data/character/getSpecificCharacter";
@@ -17,6 +16,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import DummyText from '@/components/DummyText';
+import { AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
 export default async function Page({
     params
@@ -27,7 +27,7 @@ export default async function Page({
 }): Promise<React.JSX.Element> {
     const character: Character = await getSpecificCharacter(params.characterId);
     const episodesIds: string[] = character.episode.map((episode: string): string | undefined => episode.split('/').pop()) as string[];
-    const episodes: Episode[] = await getSeveralEpisodes(episodesIds);
+    const episodes: Episode[] | Episode = await getSeveralEpisodes(episodesIds);
 
     return (
         <>
@@ -35,10 +35,11 @@ export default async function Page({
             <div className="space-y-6">
                 <AlertDialog>
                     <AlertDialogTrigger className="mx-auto" asChild>
-                        <Image src={ character.image } alt={ character.name } width={ 680 } height={ 400 } className="rounded-lg object-cover mx-auto max-h-[450px] max-w-[800px] transition hover:scale-[1.02] cursor-pointer" />
+                        <Image src={ character.image } alt={ character.name } width={ 300 } height={ 300 } className="rounded-lg object-cover mx-auto w-full max-h-[450px] max-w-[800px] transition hover:scale-[1.02] cursor-pointer" />
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
+                            <AlertDialogTitle className="text-xl font-medium">{ character.name }</AlertDialogTitle>
                             <AlertDialogDescription>
                                 <Image src={ character.image } alt={ character.name } width={ 900 } height={ 900 } className="rounded-md" />
                             </AlertDialogDescription>

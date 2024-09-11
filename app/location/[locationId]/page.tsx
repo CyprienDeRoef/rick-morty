@@ -16,7 +16,7 @@ export default async function Page({
 }): Promise<React.JSX.Element> {
     const location: Location = await getSpecificLocation(params.locationId);
     const residentsIds: string[] = location.residents.map((resident: string): string | undefined => resident.split('/').pop()) as string[];
-    const residents: Character[] = await getSeveralCharacters(residentsIds);
+    const residents: Character[] | Character = await getSeveralCharacters(residentsIds);
 
     return (
         <>

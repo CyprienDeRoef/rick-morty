@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -10,18 +9,10 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useTheme } from "next-themes";
 
-export function ModeToggle() {
-    const [theme, setTheme] = useState('dark');
-
-    useEffect(() => {
-        localStorage.setItem('theme', theme);
-        if (theme === 'dark') {
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.remove('dark');
-        }
-    }, [theme]);
+export function ModeToggle(): React.JSX.Element {
+    const { setTheme } = useTheme();
 
     return (
         <DropdownMenu>
