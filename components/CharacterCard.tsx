@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Character } from "@/lib/types";
 import * as icons from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CharacterCardProps {
     character: Character;
@@ -28,11 +29,16 @@ export default function CharacterCard({ character }: CharacterCardProps): React.
                 <p className="flex gap-2">Status: { character.status } { character.status === "Alive" ? <icons.Heart className="text-green-500" /> : character.status === "Dead" ? <icons.X className="text-primary" /> : <icons.HelpCircle className="text-gray-500" /> }</p>
             </CardContent>
             <CardFooter>
-                <Button className="w-full" asChild>
-                    <Link href={ `/character/${character.id}` }>
-                        See more details
-                    </Link>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button className="w-full" asChild>
+                            <Link href={ `/character/${character.id}` }>
+                                See more details
+                            </Link>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Discover more about { character.name }</TooltipContent>
+                </Tooltip>
             </CardFooter>
         </Card>
     );

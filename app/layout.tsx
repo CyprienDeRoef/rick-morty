@@ -6,6 +6,12 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import Link from "next/link";
 import Image from "next/image";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const geistSans: NextFontWithVariable = localFont({
     src: "./fonts/GeistVF.woff",
@@ -37,16 +43,25 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <header className="container mx-auto flex justify-between items-center">
-                        <Link href="/" className="flex items-center font-bold">
-                            <Image src="/images/brandify_logo.svg" alt=" Rick & Morty Library" width={ 100 } height={ 25 } />
-                            <p><span className="text-primary ms-1">R</span>&<span className="text-primary">M</span> Library</p>
-                        </Link>
-                        <ModeToggle />
-                    </header>
-                    <div className="container mx-auto grid gap-4 md:gap-6">
-                        { children }
-                    </div>
+                    <TooltipProvider>
+                        <header className="container mx-auto flex justify-between items-center">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Link href="/" className="flex items-center font-bold">
+                                        <Image src="/images/brandify_logo.svg" alt=" Rick & Morty Library" width={ 100 } height={ 25 } />
+                                        <p><span className="text-primary ms-1">R</span>&<span className="text-primary">M</span> Library</p>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Back to home page</p>
+                                </TooltipContent>
+                            </Tooltip>
+                            <ModeToggle />
+                        </header>
+                        <div className="container mx-auto grid gap-4 md:gap-6">
+                            { children }
+                        </div>
+                    </TooltipProvider>
                 </ThemeProvider>
             </body>
         </html>

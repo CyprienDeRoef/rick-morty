@@ -18,6 +18,11 @@ import {
 } from "@/components/ui/pagination";
 import CharacterCard from '@/components/CharacterCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function CharacterList(): React.ReactNode {
     const [actualPage, setActualPage] = useState<number>(1);
@@ -65,30 +70,58 @@ export default function CharacterList(): React.ReactNode {
         <>
             <div className="flex gap-4 justify-between [&>*]:flex [&>*]:gap-2 [&>*]:sm:gap-4">
                 <div>
-                    <Toggle variant="outline" onClick={ (): void => {
-                        setAlive(!alive);
-                        setActualPage(1);
-                    } }>Alive</Toggle>
-                    <Toggle variant="outline" onClick={ (): void => {
-                        setDead(!dead);
-                        setActualPage(1);
-                    } }>Dead</Toggle>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle variant="outline" onClick={ (): void => {
+                                setAlive(!alive);
+                                setActualPage(1);
+                            } }>Alive</Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Find characters that are alive
+                        </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle variant="outline" onClick={ (): void => {
+                                setDead(!dead);
+                                setActualPage(1);
+                            } }>Dead</Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Find characters that are dead
+                        </TooltipContent>
+                    </Tooltip>
                 </div>
                 <div>
-                    <Button variant="outline" onClick={ (): void => {
-                        setActualPage(1);
-                        setName(searchInput);
-                    } }>
-                        <icons.SearchIcon className="h-4 w-4" />
-                    </Button>
-                    <Input placeholder="Search" onChange={ (e: React.ChangeEvent<HTMLInputElement>): void => setSearchInput(e.target.value) } />
-                    <Button onClick={ (): void => {
-                        setSearchInput("");
-                        setName("");
-                        setActualPage(1);
-                    } }>
-                        <icons.XIcon className="h-4 w-4" />
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="outline" onClick={ (): void => {
+                                setActualPage(1);
+                                setName(searchInput);
+                            } }>
+                                <icons.SearchIcon className="h-4 w-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Search for a character by name
+                        </TooltipContent>
+                    </Tooltip>
+                    <Input placeholder="Rick Sanchez..." onChange={ (e: React.ChangeEvent<HTMLInputElement>): void => setSearchInput(e.target.value) } />
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button onClick={ (): void => {
+                                setSearchInput("");
+                                setName("");
+                                setActualPage(1);
+                            } }>
+                                <icons.XIcon className="h-4 w-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            Clear search
+                        </TooltipContent>
+                    </Tooltip>
                 </div>
             </div >
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
