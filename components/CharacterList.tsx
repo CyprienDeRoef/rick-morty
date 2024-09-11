@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
@@ -18,22 +16,31 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import Link from "next/link";
+import CharacterCard from '@/components/CharacterCard';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function CharacterList(): React.ReactNode {
     const [actualPage, setActualPage] = useState<number>(1);
     const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({ count: 0, pages: 0, next: "", prev: "" });
+
     const [characters, setCharacters] = useState<Character[]>([]);
-    const [status, setStatus] = useState<"Alive" | "Dead" | "">("");
+    const [loading, setLoading] = useState<boolean>(true);
+
     const [searchInput, setSearchInput] = useState<string>("");
     const [name, setName] = useState<string>("");
+
+    const [status, setStatus] = useState<"Alive" | "Dead" | "">("");
+    const [alive, setAlive] = useState<boolean>(false);
+    const [dead, setDead] = useState<boolean>(false);
 
     useEffect((): void => {
         async function fetchCharacters(): Promise<void> {
             try {
+                setLoading(true);
                 const { info, results }: Paging<Character> = await getCharacters(actualPage, status, name);
                 setPaginationInfo(info);
                 setCharacters(results);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
@@ -42,53 +49,63 @@ export default function CharacterList(): React.ReactNode {
         fetchCharacters();
     }, [actualPage, status, name]);
 
+    useEffect((): void => {
+        if (alive && dead) {
+            setStatus("");
+        } else if (alive) {
+            setStatus("Alive");
+        } else if (dead) {
+            setStatus("Dead");
+        } else {
+            setStatus("");
+        }
+    }, [alive, dead]);
+
     return (
         <>
             <div className="flex gap-4 justify-between [&>*]:flex [&>*]:gap-2">
                 <div>
-                    <Toggle variant="outline" onClick={ (): void => setStatus("Alive") }>Alive</Toggle>
-                    <Toggle variant="outline" onClick={ (): void => setStatus("Dead") }>Dead</Toggle>
+                    <Toggle variant="outline" onClick={ (): void => {
+                        setAlive(!alive);
+                        setActualPage(1);
+                    } }>Alive</Toggle>
+                    <Toggle variant="outline" onClick={ (): void => {
+                        setDead(!dead);
+                        setActualPage(1);
+                    } }>Dead</Toggle>
                 </div>
                 <div>
-                    <Button variant="outline" onClick={ () => setName(searchInput) }>
+                    <Button variant="outline" onClick={ (): void => {
+                        setActualPage(1);
+                        setName(searchInput);
+                    } }>
                         <icons.SearchIcon className="h-4 w-4" />
                     </Button>
-                    <Input placeholder="Search" onChange={ (e) => setSearchInput(e.target.value) } />
+                    <Input placeholder="Search" onChange={ (e: React.ChangeEvent<HTMLInputElement>): void => setSearchInput(e.target.value) } />
                 </div>
-            </div>
+            </div >
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                { characters.map((character: Character, index: number) => (
-                    <Card key={ index } className="w-full justify-between flex flex-col">
-                        <CardHeader className="text-center">
-                            <Image src={ character.image } alt={ character.name } width={ 900 } height={ 900 } className="rounded-md" />
-                            <CardTitle>{ character.name }</CardTitle>
-                            <CardDescription>{ character.species }</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Status: { character.status }</p>
-                        </CardContent>
-                        <CardFooter>
-                            <Button className="w-full" asChild>
-                                <Link href={ `/${character.id}` }>
-                                    See more details
-                                </Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                )) }
+                { loading ?
+                    Array.from({ length: 20 }, (_: unknown, index: number): React.JSX.Element => (
+                        <Skeleton key={ index } className="h-80" />
+                    ))
+                    :
+                    characters.map((character: Character, index: number): React.JSX.Element => (
+                        <CharacterCard key={ index } character={ character } />
+                    )) }
             </div>
             <Pagination className="gap-2">
-                <PaginationPrevious onClick={ () => setActualPage(actualPage - 1) } />
+                <PaginationPrevious onClick={ (): void => setActualPage(actualPage - 1) } />
                 <PaginationContent>
-                    { Array.from({ length: paginationInfo.pages }, (_, index) => index + 1).map((page: number) => {
+                    { Array.from({ length: paginationInfo.pages }, (_: unknown, index: number): number => index + 1).map((page: number): false | React.JSX.Element => {
                         const isDisplayed: boolean = page === 1 || page === actualPage || page === paginationInfo.pages || (page >= actualPage - 1 && page <= actualPage + 1);
-                        const isFirstEllipsis: boolean = page === actualPage - 1 && actualPage > 4;
-                        const isLastEllipsis: boolean = page === actualPage + 1 && actualPage < paginationInfo.pages - 3;
+                        const isFirstEllipsis: boolean = page === actualPage - 1 && actualPage >= 4;
+                        const isLastEllipsis: boolean = page === actualPage + 1 && actualPage <= paginationInfo.pages - 3;
                         return isDisplayed && (
                             <>
                                 { isFirstEllipsis && <PaginationEllipsis /> }
-                                <PaginationItem>
-                                    <PaginationLink onClick={ () => setActualPage(page) } isActive={ page === actualPage }>
+                                <PaginationItem className="cursor-pointer">
+                                    <PaginationLink onClick={ (): void => setActualPage(page) } isActive={ page === actualPage }>
                                         { page }
                                     </PaginationLink>
                                 </PaginationItem>
@@ -97,7 +114,7 @@ export default function CharacterList(): React.ReactNode {
                         );
                     }) }
                 </PaginationContent>
-                <PaginationNext onClick={ () => setActualPage(actualPage + 1) } />
+                <PaginationNext onClick={ (): void => setActualPage(actualPage + 1) } />
             </Pagination>
         </>
     );

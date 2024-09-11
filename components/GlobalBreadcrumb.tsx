@@ -1,23 +1,39 @@
 "use client";
 
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
-export function GlobalBreadcrumb({ characterName }: { characterName?: string; }): React.JSX.Element {
+
+interface GlobalBreadcrumbProps {
+    path?: string;
+    ellipsis?: boolean;
+}
+
+export default function GlobalBreadcrumb({ path, ellipsis }: GlobalBreadcrumbProps): React.JSX.Element {
     return (
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink>
+                    <BreadcrumbLink href="/">
                         Characters List
                     </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbLink>
-                        { characterName }
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
+                { ellipsis &&
+                    <>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbEllipsis />
+                        </BreadcrumbItem>
+                    </>
+                }
+                { path &&
+                    <>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbLink href={ `/${path}` }>
+                            { path }
+                        </BreadcrumbLink>
+                    </>
+                }
             </BreadcrumbList>
         </Breadcrumb>
     );
