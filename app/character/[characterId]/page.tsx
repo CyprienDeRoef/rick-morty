@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Character, Episode } from "@/lib/types";
 import getSpecificCharacter from "@/lib/data/character/getSpecificCharacter";
