@@ -41,7 +41,6 @@ export default function RootLayout({
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
-                    disableTransitionOnChange
                 >
                     <TooltipProvider>
                         <header className="container mx-auto flex justify-between items-center">

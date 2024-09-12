@@ -55,7 +55,7 @@ export default async function Page({
                         <strong>Status:</strong>
                         &nbsp;{ character.status }&nbsp;
                         { character.status === "Alive" ? (
-                            <icons.Heart className="text-green-500" />
+                            <icons.Check className="text-primary" />
                         ) : character.status === "Dead" ? (
                             <icons.X className="text-primary" />
                         ) : (
