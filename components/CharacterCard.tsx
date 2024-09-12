@@ -26,7 +26,14 @@ export default function CharacterCard({ character }: CharacterCardProps): React.
                 <CardDescription>{ character.species }</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="flex gap-2">Status: { character.status } { character.status === "Alive" ? <icons.Heart className="text-green-500" /> : character.status === "Dead" ? <icons.X className="text-primary" /> : <icons.HelpCircle className="text-gray-500" /> }</p>
+                <p className="flex gap-2">
+                    Status: { character.status }
+                    { character.status === "Alive" ?
+                        <icons.Check className="text-primary" />
+                        : character.status === "Dead" ?
+                            <icons.X className="text-primary" />
+                            : <icons.HelpCircle className="text-gray-500" /> }
+                </p>
             </CardContent>
             <CardFooter>
                 <Tooltip>
