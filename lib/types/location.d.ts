@@ -1,5 +1,6 @@
 /**
  * Represents a location from the Rick and Morty API.
+ * @see https://rickandmortyapi.com/documentation/#location-schema
  */
 export type Location = {
   /** The id of the location. */
