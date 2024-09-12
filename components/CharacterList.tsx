@@ -72,7 +72,7 @@ export default function CharacterList(): React.ReactNode {
                 <div>
                     <Tooltip>
                         <TooltipTrigger>
-                            <Toggle variant="outline" className="px-6" onClick={ (): void => {
+                            <Toggle variant="outline" className="sm:px-6" onClick={ (): void => {
                                 setAlive(!alive);
                                 setActualPage(1);
                             } }>Alive</Toggle>
@@ -83,7 +83,7 @@ export default function CharacterList(): React.ReactNode {
                     </Tooltip>
                     <Tooltip>
                         <TooltipTrigger>
-                            <Toggle variant="outline" className="px-6" onClick={ (): void => {
+                            <Toggle variant="outline" className="sm:px-6" onClick={ (): void => {
                                 setDead(!dead);
                                 setActualPage(1);
                             } }>Dead</Toggle>
