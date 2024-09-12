@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { PaginationInfo, Character, Paging } from "@/lib/types";
 import * as icons from "lucide-react";
-import getCharacters from "@/lib/data/character/getAllCharacters";
+import { getCharacters } from "@/lib/data";
 import {
     Pagination,
     PaginationContent,

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Character, Episode } from "@/lib/types";
-import getSpecificEpisode from "@/lib/data/episode/getSpecificEpisode";
+import { getEpisode } from "@/lib/data";
 import GlobalBreadcrumb from '@/components/GlobalBreadcrumb';
 import * as icons from 'lucide-react';
 import Link from 'next/link';
-import getSeveralCharacters from '@/lib/data/character/getSeveralCharacters';
+import { getSeveralCharacters } from '@/lib/data';
 import DummyText from '@/components/DummyText';
 
 export default async function Page({
@@ -14,7 +14,7 @@ export default async function Page({
         episodeId: string;
     };
 }): Promise<React.JSX.Element> {
-    const episode: Episode = await getSpecificEpisode(params.episodeId);
+    const episode: Episode = await getEpisode(params.episodeId);
     const charactersIds: string[] | string = episode.characters.map((character: string): string | undefined => character.split('/').pop()) as string[] | string;
     const characters: Character[] | Character = await getSeveralCharacters(charactersIds);
 
@@ -38,7 +38,7 @@ export default async function Page({
                     <div className="flex flex-wrap">
                         <strong>Characters:</strong>
                         { Array.isArray(characters) ?
-                            characters.map((resident: Character, index: number) => (
+                            characters.map((resident: Character, index: number): React.JSX.Element => (
                                 <Link key={ index } href={ `/character/${resident.id}` }>
                                     &nbsp;{ resident.name }{ index < characters.length - 1 ? ',' : '' }
                                 </Link>

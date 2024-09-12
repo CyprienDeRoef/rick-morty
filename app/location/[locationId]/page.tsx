@@ -1,11 +1,11 @@
 import React from 'react';
 import { Character, Location } from "@/lib/types";
-import getSpecificLocation from "@/lib/data/location/getSpecificLocation";
+import { getLocation } from "@/lib/data";
 import GlobalBreadcrumb from '@/components/GlobalBreadcrumb';
 import Link from 'next/link';
 import * as icons from "lucide-react";
-import getSeveralCharacters from '@/lib/data/character/getSeveralCharacters';
 import DummyText from '@/components/DummyText';
+import { getSeveralCharacters } from '@/lib/data';
 
 export default async function Page({
     params
@@ -14,7 +14,7 @@ export default async function Page({
         locationId: string;
     };
 }): Promise<React.JSX.Element> {
-    const location: Location = await getSpecificLocation(params.locationId);
+    const location: Location = await getLocation(params.locationId);
     const residentsIds: string[] = location.residents.map((resident: string): string | undefined => resident.split('/').pop()) as string[];
     const residents: Character[] | Character = await getSeveralCharacters(residentsIds);
 

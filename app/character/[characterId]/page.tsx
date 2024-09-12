@@ -1,10 +1,10 @@
 import React from 'react';
 import { Character, Episode } from "@/lib/types";
-import getSpecificCharacter from "@/lib/data/character/getSpecificCharacter";
+import { getCharacter } from "@/lib/data";
 import Image from "next/image";
 import Link from 'next/link';
 import GlobalBreadcrumb from '@/components/GlobalBreadcrumb';
-import getSeveralEpisodes from '@/lib/data/episode/getSeveralEpisodes';
+import { getSeveralEpisodes } from '@/lib/data';
 import * as icons from "lucide-react";
 import {
     AlertDialog,
@@ -25,7 +25,7 @@ export default async function Page({
         characterId: string;
     };
 }): Promise<React.JSX.Element> {
-    const character: Character = await getSpecificCharacter(params.characterId);
+    const character: Character = await getCharacter(params.characterId);
     const episodesIds: string[] = character.episode.map((episode: string): string | undefined => episode.split('/').pop()) as string[];
     const episodes: Episode[] | Episode = await getSeveralEpisodes(episodesIds);
 
